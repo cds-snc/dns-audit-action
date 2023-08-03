@@ -3484,7 +3484,7 @@ const main = () => {
     if (!fs.existsSync("dns.pcap")) {
 
         const command = 'sudo';
-        const args = ['tcpdump', '-n', '-l', '-w', 'dns.pcap', 'port', '443'];
+        const args = ['tcpdump', '-n', '-l', '-w', 'dns.pcap', 'port', '53'];
 
         console.log("Starting tcpdump...");
         // Start the child process
@@ -3511,7 +3511,7 @@ const main = () => {
 
         // Convert PCAP to JSON
         const packets = pcap_parser.parsePcapFile("dns.pcap");
-        console.log(JSON.stringify(packets, null, 2));
+        console.log(packets);
     }
 };
 
