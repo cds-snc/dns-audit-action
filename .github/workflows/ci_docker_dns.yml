@@ -13,7 +13,7 @@ jobs:
         run: sudo apt-get install tcpdump
 
       - name: Capture DNS traffic
-        run: sudo tcpdump -i docker0 -n -l port 53 > dns.log &
+        run: sudo tcpdump -n -l port 53 > dns.log &
 
       - name: Run docker container
         uses: cds-snc/terraform-tools-setup@v1
