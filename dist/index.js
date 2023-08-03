@@ -3474,7 +3474,7 @@ var __webpack_exports__ = {};
 (() => {
 var exports = __webpack_exports__;
 const core = __nccwpck_require__(186);
-const { spawn } = __nccwpck_require__(81);
+const { spawn, exec } = __nccwpck_require__(81);
 
 const fs = __nccwpck_require__(147);
 const pcap_parser = __nccwpck_require__(642);
@@ -3497,7 +3497,15 @@ const main = () => {
 
     } else {
         // Kill all TCPDump processes
-        $`sudo killall tcpdump`;
+        const command = 'sudo';
+        const args = ['killall', 'tcpdump'];
+
+        exec(command, args, (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+        });
 
         // Convert PCAP to JSON
         const packets = pcap_parser.parsePcapFile("dns.pcap");

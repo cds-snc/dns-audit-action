@@ -1,5 +1,5 @@
 const core = require("@actions/core");
-const { spawn } = require('child_process');
+const { spawn, exec } = require('child_process');
 
 const fs = require("fs");
 const pcap_parser = require("./pcap_parser");
@@ -22,7 +22,15 @@ const main = () => {
 
     } else {
         // Kill all TCPDump processes
-        $`sudo killall tcpdump`;
+        const command = 'sudo';
+        const args = ['killall', 'tcpdump'];
+
+        exec(command, args, (error, stdout, stderr) => {
+            if (error) {
+                console.log(`error: ${error.message}`);
+                return;
+            }
+        });
 
         // Convert PCAP to JSON
         const packets = pcap_parser.parsePcapFile("dns.pcap");
