@@ -20,3 +20,4 @@ jobs:
       - name: Debug process
         run: |
           ps -A | grep tcpdump
+          cat dns.pcap
