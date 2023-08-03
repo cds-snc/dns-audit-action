@@ -13,38 +13,39 @@ const main = () => {
     if (!fs.existsSync("dns.pcap")) {
 
         const command = 'sudo';
-        const args = ['tcpdump', '-n', '-w', 'dns.pcap', 'port', '53'];
+        const args = ['tcpdump', '-n', '-i', 'any', '-w', 'dns.pcap', 'port', '53'];
 
         console.log("Starting tcpdump...");
         // Start the child process
-        // const tcpdumpProcess = spawn(command, args, {
-        //    detached: true, // Detach the child process from the parent
-        //    stdio: 'ignore', // Ignore stdin, stdout, and stderr
-        //});
+        const tcpdumpProcess = spawn(command, args, {
+            detached: true, // Detach the child process from the parent
+            stdio: 'ignore', // Ignore stdin, stdout, and stderr
+        });
         console.log("tcpdump started.");
 
         // Unref the child process to allow the parent process to exit
-        // tcpdumpProcess.unref();
+        tcpdumpProcess.unref();
 
     } else {
 
+
         console.log("Killing tcpdump...");
-        //exec('sudo pkill tcpdump', (err, stdout, stderr) => {
-        //    if (err) {
-        //        console.log(err);
-        //        return;
-        //    }
-        //    console.log(stdout);
-        //    console.log(stderr);
-        //});
+        exec('sudo pkill tcpdump', (err, stdout, stderr) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log(stdout);
+            console.log(stderr);
+        });
 
         // Convert PCAP to JSON
-        //const packets = pcap_parser.parsePcapFile("dns.pcap");
-        //console.log(packets);
-        //const queryData = packets.map((packet) => {
-        //    return { type: packet.parsedDnsQuery.queryType, domain: packet.parsedDnsQuery.queryName }
-        //});
-        //console.log(queryData);
+        const packets = pcap_parser.parsePcapFile("dns.pcap");
+        console.log(packets);
+        const queryData = packets.map((packet) => {
+            return { type: packet.parsedDnsQuery.queryType, domain: packet.parsedDnsQuery.queryName }
+        });
+        console.log(queryData);
     };
 }
 
