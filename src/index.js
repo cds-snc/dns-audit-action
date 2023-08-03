@@ -13,13 +13,15 @@ const main = () => {
     if (!fs.existsSync("dns.pcap")) {
 
         const command = 'sudo';
-        const args = ['tcpdump', '-n', '-l', '-w', 'dns.pcap', 'port', '53'];
+        const args = ['tcpdump', '-n', '-l', '-w', 'dns.pcap'];
 
+        console.log("Starting tcpdump...");
         // Start the child process
         const tcpdumpProcess = spawn(command, args, {
             detached: true, // Detach the child process from the parent
             stdio: 'ignore', // Ignore stdin, stdout, and stderr
         });
+        console.log("tcpdump started.");
 
         sleep(5000);
 
