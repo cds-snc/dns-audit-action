@@ -4722,28 +4722,21 @@ var __webpack_exports__ = {};
 var exports = __webpack_exports__;
 const core = __nccwpck_require__(186);
 const exec = __nccwpck_require__(514);
+const fs = __nccwpck_require__(147);
 const pcap_parser = __nccwpck_require__(642);
 
-const arg = process.argv[2];
-
 const main = () => {
-
-
-    if (arg == "start") {
+    // Check if dns.pcap exists
+    if (!fs.existsSync("tmp/dns.pcap")) {
         // Start TCPDump
         exec.exec(`sudo tcpdump -n -l -w tmp/dns.pcap port 53 &`);
-
-    } else if (arg == "cleanup") {
-
+    } else {
         // Kill all TCPDump processes
         exec.exec(`sudo killall tcpdump`);
 
         // Convert PCAP to JSON
         const packets = pcap_parser.parsePcapFile("tmp/dns.pcap");
         console.log(JSON.stringify(packets, null, 2));
-
-    } else {
-        console.log("Invalid argument");
     }
 };
 
