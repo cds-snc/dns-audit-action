@@ -4727,15 +4727,15 @@ const pcap_parser = __nccwpck_require__(642);
 
 const main = () => {
     // Check if dns.pcap exists
-    if (!fs.existsSync("tmp/dns.pcap")) {
+    if (!fs.existsSync("dns.pcap")) {
         // Start TCPDump
-        exec.exec('sudo', ['tcpdump -n -w tmp/dns.pcap port 53']);
+        exec.exec('sudo tcpdump -n -w dns.pcap port 53');
     } else {
         // Kill all TCPDump processes
-        exec.exec('sudo', ['killall', 'tcpdump']);
+        exec.exec('sudo killall tcpdump');
 
         // Convert PCAP to JSON
-        const packets = pcap_parser.parsePcapFile("tmp/dns.pcap");
+        const packets = pcap_parser.parsePcapFile("dns.pcap");
         console.log(JSON.stringify(packets, null, 2));
     }
 };
