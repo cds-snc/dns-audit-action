@@ -28,25 +28,23 @@ const main = () => {
 
     } else {
 
-        sleep(2000);
-
         console.log("Killing tcpdump...");
-        exec('sudo pkill tcpdump', (err, stdout, stderr) => {
-            if (err) {
-                console.log(err);
-                return;
-            }
-            console.log(stdout);
-            console.log(stderr);
-        });
+        //exec('sudo pkill tcpdump', (err, stdout, stderr) => {
+        //    if (err) {
+        //        console.log(err);
+        //        return;
+        //    }
+        //    console.log(stdout);
+        //    console.log(stderr);
+        //});
 
         // Convert PCAP to JSON
         const packets = pcap_parser.parsePcapFile("dns.pcap");
         console.log(packets);
-        const queryData = packets.map((packet) => {
-            return { type: packet.parsedDnsQuery.queryType, domain: packet.parsedDnsQuery.queryName }
-        });
-        console.log(queryData);
+        //const queryData = packets.map((packet) => {
+        //    return { type: packet.parsedDnsQuery.queryType, domain: packet.parsedDnsQuery.queryName }
+        //});
+        //console.log(queryData);
     };
 }
 
