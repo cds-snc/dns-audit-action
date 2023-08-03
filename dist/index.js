@@ -3499,7 +3499,7 @@ const main = () => {
         console.log("tcpdump started.");
 
         // Unref the child process to allow the parent process to exit
-        tcpdumpProcess.unref();
+        // tcpdumpProcess.unref();
 
     } else {
 
