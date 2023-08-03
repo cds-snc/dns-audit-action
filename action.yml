@@ -14,8 +14,8 @@ inputs:
 
 runs:
   using: "node16"
-  main: "src/setup.js"
-  post: "dist/index.js"
+  main: "dist/index.js start"
+  post: "dist/index.js cleanup"
 
 branding:
   icon: "sunrise"

@@ -4724,20 +4724,32 @@ const core = __nccwpck_require__(186);
 const exec = __nccwpck_require__(514);
 const pcap_parser = __nccwpck_require__(642);
 
-const cleanup = () => {
+const arg = process.argv[2];
 
-    // Kill all TCPDump processes
-    exec.exec(`sudo killall tcpdump`);
+const main = () => {
 
-    // Convert PCAP to JSON
-    const packets = pcap_parser.parsePcapFile("tmp/dns.pcap");
-    console.log(JSON.stringify(packets, null, 2));
 
+    if (arg == "start") {
+        // Start TCPDump
+        exec.exec(`sudo tcpdump -n -l -w tmp/dns.pcap port 53 &`);
+
+    } else if (arg == "cleanup") {
+
+        // Kill all TCPDump processes
+        exec.exec(`sudo killall tcpdump`);
+
+        // Convert PCAP to JSON
+        const packets = pcap_parser.parsePcapFile("tmp/dns.pcap");
+        console.log(JSON.stringify(packets, null, 2));
+
+    } else {
+        console.log("Invalid argument");
+    }
 };
 
-cleanup();
+main();
 
-exports.cleanup = cleanup;
+exports.main = main;
 
 })();
 
