@@ -3496,17 +3496,6 @@ const main = () => {
         tcpdumpProcess.unref();
 
     } else {
-        // Kill all TCPDump processes
-        const command = 'sudo';
-        const args = ['killall', 'tcpdump'];
-
-        exec(command, args, (error, stdout, stderr) => {
-            if (error) {
-                console.log(`error: ${error.message}`);
-                return;
-            }
-        });
-
         // Convert PCAP to JSON
         const packets = pcap_parser.parsePcapFile("dns.pcap");
         console.log(JSON.stringify(packets, null, 2));
