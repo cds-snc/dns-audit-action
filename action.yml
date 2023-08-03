@@ -1,0 +1,22 @@
+name: DNS Audit GitHub Action
+description: "GitHub action to audit all DNS requests made by a workflow file
+author: "Canadian Digital Service"
+
+inputs:
+  echo-results:
+    description: "Flag if it should echo the results to the console"
+    required: true
+    default: "true"
+  start-tcpdump:
+    description: "Flag if it should start tcpdump"
+    required: true
+    default: "true"
+
+runs:
+  using: "node16"
+  main: "src/setup.js"
+  post: 'dist/index.js'
+
+branding:
+  icon: "sunrise"
+  color: "white"

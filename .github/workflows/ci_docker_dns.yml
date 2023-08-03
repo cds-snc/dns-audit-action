@@ -10,16 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Capture DNS traffic
-        run: sudo tcpdump -n -l -w dns.pcap port 53 &
+        uses: ./
 
       - name: Run docker container
         uses: cds-snc/terraform-tools-setup@v1
-
-      - name: Stop TCP Dump
-        run: sudo killall tcpdump
-
-      - name: Upload pcap to artifacts
-        uses: actions/upload-artifact@v2
-        with:
-          name: dns
-          path: dns.pcap
