@@ -3514,8 +3514,8 @@ const main = () => {
         //});
 
         // Convert PCAP to JSON
-        const packets = pcap_parser.parsePcapFile("dns.pcap");
-        console.log(packets);
+        //const packets = pcap_parser.parsePcapFile("dns.pcap");
+        //console.log(packets);
         //const queryData = packets.map((packet) => {
         //    return { type: packet.parsedDnsQuery.queryType, domain: packet.parsedDnsQuery.queryName }
         //});
