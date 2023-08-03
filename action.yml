@@ -1,5 +1,5 @@
 name: DNS Audit GitHub Action
-description: "GitHub action to audit all DNS requests made by a workflow file
+description: "GitHub action to audit all DNS requests made by a workflow file"
 author: "Canadian Digital Service"
 
 inputs:
@@ -15,7 +15,7 @@ inputs:
 runs:
   using: "node16"
   main: "src/setup.js"
-  post: 'dist/index.js'
+  post: "dist/index.js"
 
 branding:
   icon: "sunrise"
