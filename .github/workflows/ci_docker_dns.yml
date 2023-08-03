@@ -1,0 +1,26 @@
+name: CI Docker DNS
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ci-docker-dns:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install TCP Dump
+        run: sudo apt-get install tcpdump
+
+      - name: Capture DNS traffic
+        run: sudo tcpdump -i docker0 -n -l port 53 > dns.log &
+
+      - name: Run docker container
+        run: |
+          docker run --rm -it arunvelsriram/utils ping google.com
+
+      - name: Stop TCP Dump
+        run: sudo killall tcpdump
+
+      - name: Cat DNS log
+        run: cat dns.log
