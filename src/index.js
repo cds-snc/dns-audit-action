@@ -13,7 +13,7 @@ const main = () => {
     if (!fs.existsSync("dns.pcap")) {
 
         const command = 'sudo';
-        const args = ['tcpdump', '-n', '-l', '-w', 'dns.pcap'];
+        const args = ['tcpdump', '-n', '-l', 'port 53', '-w', 'dns.pcap'];
 
         console.log("Starting tcpdump...");
         // Start the child process
@@ -23,12 +23,21 @@ const main = () => {
         });
         console.log("tcpdump started.");
 
-        sleep(5000);
-
         // Unref the child process to allow the parent process to exit
         tcpdumpProcess.unref();
 
     } else {
+
+        console.log("Killing tcpdump...");
+        exec('sudo pkill tcpdump', (err, stdout, stderr) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log(stdout);
+            console.log(stderr);
+        });
+
         // Convert PCAP to JSON
         const packets = pcap_parser.parsePcapFile("dns.pcap");
         console.log(JSON.stringify(packets, null, 2));
