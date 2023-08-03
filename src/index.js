@@ -4,6 +4,10 @@ const { spawn, exec } = require('child_process');
 const fs = require("fs");
 const pcap_parser = require("./pcap_parser");
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const main = () => {
     // Check if dns.pcap exists
     if (!fs.existsSync("dns.pcap")) {
@@ -24,6 +28,8 @@ const main = () => {
 
     } else {
 
+        sleep(2000);
+
         console.log("Killing tcpdump...");
         exec('sudo pkill tcpdump', (err, stdout, stderr) => {
             if (err) {
@@ -36,6 +42,7 @@ const main = () => {
 
         // Convert PCAP to JSON
         const packets = pcap_parser.parsePcapFile("dns.pcap");
+        console.log(packets);
         const queryData = packets.map((packet) => {
             return { type: packet.parsedDnsQuery.queryType, domain: packet.parsedDnsQuery.queryName }
         });

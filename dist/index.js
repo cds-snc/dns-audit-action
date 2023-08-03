@@ -3479,6 +3479,10 @@ const { spawn, exec } = __nccwpck_require__(81);
 const fs = __nccwpck_require__(147);
 const pcap_parser = __nccwpck_require__(642);
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 const main = () => {
     // Check if dns.pcap exists
     if (!fs.existsSync("dns.pcap")) {
@@ -3499,6 +3503,8 @@ const main = () => {
 
     } else {
 
+        sleep(2000);
+
         console.log("Killing tcpdump...");
         exec('sudo pkill tcpdump', (err, stdout, stderr) => {
             if (err) {
@@ -3511,6 +3517,7 @@ const main = () => {
 
         // Convert PCAP to JSON
         const packets = pcap_parser.parsePcapFile("dns.pcap");
+        console.log(packets);
         const queryData = packets.map((packet) => {
             return { type: packet.parsedDnsQuery.queryType, domain: packet.parsedDnsQuery.queryName }
         });
