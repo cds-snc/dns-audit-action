@@ -12,7 +12,8 @@ const main = () => {
             stdio: "ignore",
         };
 
-        $`sudo tcpdump -n -w dns.pcap port 53`, options;
+        let child = $(`sudo tcpdump -n -w dns.pcap port 53`, options);
+        child.unref();
 
     } else {
         // Kill all TCPDump processes
