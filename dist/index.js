@@ -3492,10 +3492,10 @@ const main = () => {
 
         console.log("Starting tcpdump...");
         // Start the child process
-        const tcpdumpProcess = spawn(command, args, {
-            detached: true, // Detach the child process from the parent
-            stdio: 'ignore', // Ignore stdin, stdout, and stderr
-        });
+        // const tcpdumpProcess = spawn(command, args, {
+        //    detached: true, // Detach the child process from the parent
+        //    stdio: 'ignore', // Ignore stdin, stdout, and stderr
+        //});
         console.log("tcpdump started.");
 
         // Unref the child process to allow the parent process to exit
