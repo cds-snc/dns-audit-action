@@ -11,9 +11,6 @@ jobs:
     steps:
       - uses: actions/checkout@c85c95e3d7251135ab7dc9ce3241c5835cc595a9 # v3.5.3
 
-      #- name: Capture DNS traffic
-      #  run: sudo tcpdump -n -i any -w dns.pcap port 53 &
-
       - name: Capture DNS traffic
         uses: ./
 
@@ -24,3 +21,9 @@ jobs:
         run: |
           ps -A | grep tcpdump
           cat dns.pcap
+
+      - name: upload pcap
+        uses: actions/upload-artifact@v2
+        with:
+          name: dns.pcap
+          path: dns.pcap
