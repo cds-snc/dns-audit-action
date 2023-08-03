@@ -3479,16 +3479,12 @@ const { spawn, exec } = __nccwpck_require__(81);
 const fs = __nccwpck_require__(147);
 const pcap_parser = __nccwpck_require__(642);
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 const main = () => {
     // Check if dns.pcap exists
     if (!fs.existsSync("dns.pcap")) {
 
         const command = 'sudo';
-        const args = ['tcpdump', '-n', '-l', 'port 53', '-w', 'dns.pcap'];
+        const args = ['tcpdump', '-n', '-l', '-w', 'dns.pcap', 'port', '443'];
 
         console.log("Starting tcpdump...");
         // Start the child process

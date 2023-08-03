@@ -4,16 +4,12 @@ const { spawn, exec } = require('child_process');
 const fs = require("fs");
 const pcap_parser = require("./pcap_parser");
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 const main = () => {
     // Check if dns.pcap exists
     if (!fs.existsSync("dns.pcap")) {
 
         const command = 'sudo';
-        const args = ['tcpdump', '-n', '-l', 'port 53', '-w', 'dns.pcap'];
+        const args = ['tcpdump', '-n', '-l', '-w', 'dns.pcap', 'port', '443'];
 
         console.log("Starting tcpdump...");
         // Start the child process
