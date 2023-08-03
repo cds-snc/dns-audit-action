@@ -9,7 +9,7 @@ const main = () => {
     if (!fs.existsSync("dns.pcap")) {
 
         const command = 'sudo';
-        const args = ['tcpdump', '-n', '-l', '-w', 'dns.pcap', 'port', '53'];
+        const args = ['tcpdump', '-n', '-w', 'dns.pcap', 'port', '53'];
 
         console.log("Starting tcpdump...");
         // Start the child process
