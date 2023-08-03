@@ -1,19 +1,24 @@
 const core = require("@actions/core");
-import { $ } from 'execa';
+const { spawn } = require('child_process');
+
 const fs = require("fs");
 const pcap_parser = require("./pcap_parser");
 
 const main = () => {
     // Check if dns.pcap exists
     if (!fs.existsSync("dns.pcap")) {
-        // Start TCPDump
-        let options = {
-            detached: true,
-            stdio: "ignore",
-        };
 
-        let child = $(`sudo tcpdump -n -w dns.pcap port 53`, options);
-        child.unref();
+        const command = 'sudo';
+        const args = ['tcpdump', '-n', '-w', 'dns.pcap', 'port', '53'];
+
+        // Start the child process
+        const tcpdumpProcess = spawn(command, args, {
+            detached: true, // Detach the child process from the parent
+            stdio: 'ignore', // Ignore stdin, stdout, and stderr
+        });
+
+        // Unref the child process to allow the parent process to exit
+        tcpdumpProcess.unref();
 
     } else {
         // Kill all TCPDump processes
