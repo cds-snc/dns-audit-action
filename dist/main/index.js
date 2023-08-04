@@ -3070,7 +3070,9 @@ const terminateTcpdump = (filename) => {
 
     // Convert PCAP to JSON
     const packets = pcap_parser.parsePcapFile(filePcap);
-    console.log("writing to file ...")
+
+    // Write to file
+    fs.writeFileSync(filename, JSON.stringify(packets));
 }
 
 const main = () => {
