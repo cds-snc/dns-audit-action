@@ -2856,7 +2856,7 @@ function parseDnsQuery(payload) {
   }
 }
 
-function parsePcapHeader(filename) {
+function parsePcapFile(filename) {
   const pcapData = fs.readFileSync(filename);
   const pcapHeaderData = pcapHeader(pcapData);
   let packets = [];
@@ -2892,7 +2892,7 @@ function parsePcapHeader(filename) {
   return packets;
 }
 
-exports.parsePcapHeader = parsePcapHeader;
+exports.parsePcapFile = parsePcapFile;
 
 /***/ }),
 
@@ -3040,16 +3040,12 @@ const { spawn, exec } = __nccwpck_require__(81);
 const fs = __nccwpck_require__(147);
 const pcap_parser = __nccwpck_require__(642);
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 const main = () => {
     // Check if dns.pcap exists
     if (!fs.existsSync("dns.pcap")) {
 
         const command = 'sudo';
-        const args = ['tcpdump', '-n', '-i', 'any', '-w', 'dns.pcap', 'port', '53'];
+        const args = ['tcpdump', '-n', '-l', '-i', 'any', '-w', 'dns.pcap', 'port', '53'];
 
         console.log("Starting tcpdump...");
         // Start the child process

@@ -21,9 +21,3 @@ jobs:
         run: |
           ps -A | grep tcpdump
           cat dns.pcap
-
-      - name: upload pcap
-        uses: actions/upload-artifact@v2
-        with:
-          name: dns.pcap
-          path: dns.pcap

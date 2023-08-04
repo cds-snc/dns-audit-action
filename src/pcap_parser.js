@@ -148,7 +148,7 @@ function parseDnsQuery(payload) {
   }
 }
 
-function parsePcapHeader(filename) {
+function parsePcapFile(filename) {
   const pcapData = fs.readFileSync(filename);
   const pcapHeaderData = pcapHeader(pcapData);
   let packets = [];
@@ -184,4 +184,4 @@ function parsePcapHeader(filename) {
   return packets;
 }
 
-exports.parsePcapHeader = parsePcapHeader;
+exports.parsePcapFile = parsePcapFile;
