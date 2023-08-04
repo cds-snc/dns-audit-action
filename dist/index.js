@@ -3088,7 +3088,7 @@ const main = () => {
         console.log("Starting tcpdump");
 
         const command = 'sudo';
-        const args = ['tcpdump', '-n', '-i', 'any', '-w', 'tmp/dns.pcap', 'port', '53'];
+        const args = ['tcpdump', '-n', '-i', 'any', '-w', filePcap, 'port', '53'];
 
         const tcpdumpProcess = spawn(command, args, {
             detached: true, // Detach the child process from the parent
