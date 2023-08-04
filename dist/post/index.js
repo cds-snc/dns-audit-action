@@ -279,13 +279,10 @@ const post = () => {
     // Only clean up if the file exists
     if (fs.existsSync(filePcap)) {
 
-        exec('sudo pkill tcpdump', (err, stdout, stderr) => {
+        exec('sudo pkill tcpdump', (err) => {
             if (err) {
-                console.log(err);
                 return;
             }
-            console.log(stdout);
-            console.log(stderr);
         });
 
         // Let tcpdump finish
@@ -298,13 +295,10 @@ const post = () => {
         }
 
         // Delete file to avoid multiple runs
-        exec('sudo rm -rf /tmp/dns.pcap', (err, stdout, stderr) => {
+        exec('sudo rm -rf /tmp/dns.pcap', (err) => {
             if (err) {
-                console.log(err);
                 return;
             }
-            console.log(stdout);
-            console.log(stderr);
         });
     }
 

@@ -23,8 +23,21 @@ const terminateTcpdump = (filename) => {
     // Convert PCAP to JSON
     const packets = pcap_parser.parsePcapFile(filePcap);
 
+    const ciData = {
+        actor: process.env.GITHUB_ACTOR,
+        dnsQueries: packets,
+        dnsQueryCount: packets.length,
+        eventName: process.env.GITHUB_EVENT_NAME,
+        job: process.env.GITHUB_JOB,
+        repository: process.env.GITHUB_REPOSITORY,
+        runNumber: process.env.GITHUB_RUN_NUMBER,
+        sha: process.env.GITHUB_SHA,
+        workflow: process.env.GITHUB_WORKFLOW,
+        workflow_ref: process.env.GITHUB_WORKFLOW_REF,
+    }
+
     // Write to file
-    fs.writeFileSync(filename, JSON.stringify(packets));
+    fs.writeFileSync(filename, JSON.stringify(ciData));
 }
 
 const main = () => {
