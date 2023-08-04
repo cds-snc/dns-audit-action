@@ -3051,8 +3051,7 @@ const { spawn, exec } = __nccwpck_require__(81);
 
 const fs = __nccwpck_require__(147);
 const pcap_parser = __nccwpck_require__(642);
-const sleepSync = __nccwpck_require__(195);
-
+const { sleepSync } = __nccwpck_require__(195);
 const filePcap = '/tmp/dns.pcap';
 
 
@@ -3068,7 +3067,7 @@ const terminateTcpdump = (filename) => {
     });
 
     // Let tcpdump finish
-    sleepSync.sleepSync(5000);
+    sleepSync(5000);
 
     // Convert PCAP to JSON
     const packets = pcap_parser.parsePcapFile(filePcap);
@@ -3096,7 +3095,7 @@ const main = () => {
         });
 
         // Let tcpdump run for 2 seconds to get started
-        sleepSync.sleepSync(2000);
+        sleepSync(2000);
 
         // Unref the child process to allow the parent process to exit
         tcpdumpProcess.unref();

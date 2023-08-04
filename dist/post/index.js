@@ -206,6 +206,14 @@ exports.sleepSync = sleepSync;
 
 /***/ }),
 
+/***/ 81:
+/***/ ((module) => {
+
+"use strict";
+module.exports = require("child_process");
+
+/***/ }),
+
 /***/ 147:
 /***/ ((module) => {
 
@@ -257,7 +265,9 @@ var __webpack_exports__ = {};
 (() => {
 var exports = __webpack_exports__;
 const pcapParser = __nccwpck_require__(642);
-const sleepSync = __nccwpck_require__(195);
+const { sleepSync } = __nccwpck_require__(195);
+const { exec } = __nccwpck_require__(81);
+
 
 const supressOutput = process.env.SUPRESS_DNS_AUDIT_OUTPUT || false;
 
@@ -273,7 +283,7 @@ const post = () => {
     });
 
     // Let tcpdump finish
-    sleepSync.sleepSync(5000);
+    sleepSync(5000);
 
     // Convert PCAP to JSON
     if (!supressOutput) {

@@ -3,8 +3,7 @@ const { spawn, exec } = require('child_process');
 
 const fs = require("fs");
 const pcap_parser = require("./pcap_parser");
-const sleepSync = require('./sleep');
-
+const { sleepSync } = require('./sleep');
 const filePcap = '/tmp/dns.pcap';
 
 
@@ -20,7 +19,7 @@ const terminateTcpdump = (filename) => {
     });
 
     // Let tcpdump finish
-    sleepSync.sleepSync(5000);
+    sleepSync(5000);
 
     // Convert PCAP to JSON
     const packets = pcap_parser.parsePcapFile(filePcap);
@@ -48,7 +47,7 @@ const main = () => {
         });
 
         // Let tcpdump run for 2 seconds to get started
-        sleepSync.sleepSync(2000);
+        sleepSync(2000);
 
         // Unref the child process to allow the parent process to exit
         tcpdumpProcess.unref();

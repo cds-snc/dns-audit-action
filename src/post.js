@@ -1,5 +1,7 @@
 const pcapParser = require("./pcap_parser");
-const sleepSync = require('./sleep');
+const { sleepSync } = require('./sleep');
+const { exec } = require('child_process');
+
 
 const supressOutput = process.env.SUPRESS_DNS_AUDIT_OUTPUT || false;
 
@@ -15,7 +17,7 @@ const post = () => {
     });
 
     // Let tcpdump finish
-    sleepSync.sleepSync(5000);
+    sleepSync(5000);
 
     // Convert PCAP to JSON
     if (!supressOutput) {
