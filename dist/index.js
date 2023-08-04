@@ -3040,6 +3040,8 @@ const { spawn, exec } = __nccwpck_require__(81);
 const fs = __nccwpck_require__(147);
 const pcap_parser = __nccwpck_require__(642);
 
+const filePcap = 'tmp/dns.pcap';
+
 const sleepSync = (ms) => {
     const end = new Date().getTime() + ms;
     while (new Date().getTime() < end) { /* do nothing */ }
@@ -3052,7 +3054,7 @@ const main = () => {
     const startTcpdump = core.getInput("start-tcpdump");
 
     // Check if dns.pcap exists
-    if (startTcpdump && !fs.existsSync("dns.pcap")) {
+    if (startTcpdump && !fs.existsSync(filePcap)) {
 
         const command = 'sudo';
         const args = ['tcpdump', '-n', '-i', 'any', '-w', 'tmp/dns.pcap', 'port', '53'];
@@ -3068,7 +3070,7 @@ const main = () => {
         // Unref the child process to allow the parent process to exit
         tcpdumpProcess.unref();
 
-    } else if (echoResults && fs.existsSync("tmp/dns.pcap")) {
+    } else if (echoResults && fs.existsSync(filePcap)) {
         exec('sudo pkill tcpdump', (err, stdout, stderr) => {
             if (err) {
                 console.log(err);
@@ -3082,7 +3084,7 @@ const main = () => {
         sleepSync(5000);
 
         // Convert PCAP to JSON
-        const packets = pcap_parser.parsePcapFile("tmp/dns.pcap");
+        const packets = pcap_parser.parsePcapFile(filePcap);
         console.log(packets);
     } else {
         console.log("No DNS packets capture started.");
