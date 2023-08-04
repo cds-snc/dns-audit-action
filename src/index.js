@@ -32,6 +32,7 @@ const terminateTcpdump = (filename) => {
     // Output to file or stdout
     if (filename) {
         console.log("writing to file")
+        console.log(process.env)
     } else {
         if (!supressOutput) {
             console.log(packets);
