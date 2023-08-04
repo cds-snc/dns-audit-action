@@ -31,8 +31,9 @@ const terminateTcpdump = (filename) => {
 
     // Output to file or stdout
     if (filename) {
-        console.log("writing to file")
+        console.log("writing to file ...")
         console.log(process.env)
+        console.log("where is my env?")
     } else {
         if (!supressOutput) {
             console.log(packets);
@@ -66,8 +67,6 @@ const main = () => {
         // Unref the child process to allow the parent process to exit
         tcpdumpProcess.unref();
 
-    } else if (outputFile && fs.existsSync(filePcap)) {
-        console.log("writing to file")
     } else if (fs.existsSync(filePcap)) {
         terminateTcpdump(outputFile);
     } else {
