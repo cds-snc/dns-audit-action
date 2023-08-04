@@ -51,7 +51,7 @@ const main = () => {
         // Unref the child process to allow the parent process to exit
         tcpdumpProcess.unref();
 
-    } else if (fs.existsSync(filePcap && outputFile)) {
+    } else if (fs.existsSync(filePcap) && outputFile) {
         terminateTcpdump(outputFile);
     } else {
         console.log("No DNS packets capture started.");

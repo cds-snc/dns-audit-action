@@ -298,7 +298,14 @@ const post = () => {
         }
 
         // Delete file to avoid multiple runs
-        fs.unlinkSync(filePcap);
+        exec('sudo rm -rf /tmp/dns.pcap', (err, stdout, stderr) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log(stdout);
+            console.log(stderr);
+        });
     }
 
 }
