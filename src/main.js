@@ -6,12 +6,7 @@ const pcap_parser = require("./pcap_parser");
 
 const filePcap = '/tmp/dns.pcap';
 
-const supressOutput = process.env.SUPRESS_DNS_AUDIT_OUTPUT || false;
 
-const sleepSync = (ms) => {
-    const end = new Date().getTime() + ms;
-    while (new Date().getTime() < end) { /* do nothing */ }
-}
 
 const terminateTcpdump = (filename) => {
     exec('sudo pkill tcpdump', (err, stdout, stderr) => {
@@ -28,17 +23,7 @@ const terminateTcpdump = (filename) => {
 
     // Convert PCAP to JSON
     const packets = pcap_parser.parsePcapFile(filePcap);
-
-    // Output to file or stdout
-    if (filename) {
-        console.log("writing to file ...")
-        console.log(process.env)
-        console.log("where is my env?")
-    } else {
-        if (!supressOutput) {
-            console.log(packets);
-        }
-    }
+    console.log("writing to file ...")
 }
 
 const main = () => {
@@ -67,7 +52,7 @@ const main = () => {
         // Unref the child process to allow the parent process to exit
         tcpdumpProcess.unref();
 
-    } else if (fs.existsSync(filePcap)) {
+    } else if (fs.existsSync(filePcap && outputFile)) {
         terminateTcpdump(outputFile);
     } else {
         console.log("No DNS packets capture started.");

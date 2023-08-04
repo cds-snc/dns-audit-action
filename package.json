@@ -4,8 +4,8 @@
   "description": "GitHub action to audit all DNS requests made by a workflow file",
   "main": "src/index.js",
   "scripts": {
-    "build": "ncc build src/index.js --source-map --license licenses.txt",
-    "build-test": "ncc build src/index.js --source-map --license licenses.txt -o dist-test",
+    "build": "ncc build src/main.js --out dist/main && ncc build src/post.js --out dist/post",
+    "build-test": "ncc build src/main.js --out dist-test/main && ncc build src/post.js --out dist-test/post",
     "format:check": "prettier --check src",
     "format:write": "prettier --write src",
     "lint": "eslint src",

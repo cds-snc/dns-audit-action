@@ -1,7 +1,7 @@
-require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 241:
+/***/ 351:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -135,7 +135,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.getIDToken = exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.notice = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
-const command_1 = __nccwpck_require__(241);
+const command_1 = __nccwpck_require__(351);
 const file_command_1 = __nccwpck_require__(717);
 const utils_1 = __nccwpck_require__(278);
 const os = __importStar(__nccwpck_require__(37));
@@ -3042,12 +3042,7 @@ const pcap_parser = __nccwpck_require__(642);
 
 const filePcap = '/tmp/dns.pcap';
 
-const supressOutput = process.env.SUPRESS_DNS_AUDIT_OUTPUT || false;
 
-const sleepSync = (ms) => {
-    const end = new Date().getTime() + ms;
-    while (new Date().getTime() < end) { /* do nothing */ }
-}
 
 const terminateTcpdump = (filename) => {
     exec('sudo pkill tcpdump', (err, stdout, stderr) => {
@@ -3064,17 +3059,7 @@ const terminateTcpdump = (filename) => {
 
     // Convert PCAP to JSON
     const packets = pcap_parser.parsePcapFile(filePcap);
-
-    // Output to file or stdout
-    if (filename) {
-        console.log("writing to file ...")
-        console.log(process.env)
-        console.log("where is my env?")
-    } else {
-        if (!supressOutput) {
-            console.log(packets);
-        }
-    }
+    console.log("writing to file ...")
 }
 
 const main = () => {
@@ -3103,7 +3088,7 @@ const main = () => {
         // Unref the child process to allow the parent process to exit
         tcpdumpProcess.unref();
 
-    } else if (fs.existsSync(filePcap)) {
+    } else if (fs.existsSync(filePcap && outputFile)) {
         terminateTcpdump(outputFile);
     } else {
         console.log("No DNS packets capture started.");
@@ -3119,4 +3104,3 @@ exports.main = main;
 module.exports = __webpack_exports__;
 /******/ })()
 ;
-//# sourceMappingURL=index.js.map
