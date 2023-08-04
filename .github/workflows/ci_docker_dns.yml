@@ -13,6 +13,9 @@ jobs:
 
       - name: Capture DNS traffic
         uses: ./
+        with:
+          output-file: dns.txt
+          start-tcpdump: true
 
       - name: Run docker container
         uses: cds-snc/terraform-tools-setup@v1
