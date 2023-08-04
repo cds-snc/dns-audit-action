@@ -3052,9 +3052,8 @@ const { spawn, exec } = __nccwpck_require__(81);
 const fs = __nccwpck_require__(147);
 const pcap_parser = __nccwpck_require__(642);
 const { sleepSync } = __nccwpck_require__(195);
+
 const filePcap = '/tmp/dns.pcap';
-
-
 
 const terminateTcpdump = (filename) => {
     exec('sudo pkill tcpdump', (err, stdout, stderr) => {

@@ -268,6 +268,7 @@ const pcapParser = __nccwpck_require__(642);
 const { sleepSync } = __nccwpck_require__(195);
 const { exec } = __nccwpck_require__(81);
 
+const filePcap = '/tmp/dns.pcap';
 
 const supressOutput = process.env.SUPRESS_DNS_AUDIT_OUTPUT || false;
 

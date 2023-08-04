@@ -4,9 +4,8 @@ const { spawn, exec } = require('child_process');
 const fs = require("fs");
 const pcap_parser = require("./pcap_parser");
 const { sleepSync } = require('./sleep');
+
 const filePcap = '/tmp/dns.pcap';
-
-
 
 const terminateTcpdump = (filename) => {
     exec('sudo pkill tcpdump', (err, stdout, stderr) => {
