@@ -15,7 +15,7 @@ const post = () => {
     });
 
     // Let tcpdump finish
-    sleepSync(5000);
+    sleepSync.sleepSync(5000);
 
     // Convert PCAP to JSON
     if (!supressOutput) {
