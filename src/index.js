@@ -20,6 +20,8 @@ const main = () => {
             stdio: 'ignore', // Ignore stdin, stdout, and stderr
         });
 
+        sleep(2000);
+
         // Unref the child process to allow the parent process to exit
         tcpdumpProcess.unref();
 
@@ -34,7 +36,7 @@ const main = () => {
         });
 
         // Let tcpdump finish
-        sleep(2000);
+        sleep(5000);
 
         // Convert PCAP to JSON
         const packets = pcap_parser.parsePcapFile("dns.pcap");
