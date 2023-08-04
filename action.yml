@@ -3,10 +3,6 @@ description: "GitHub action to audit all DNS requests made by a workflow file"
 author: "Canadian Digital Service"
 
 inputs:
-  echo-results:
-    description: "Flag if it should echo the results to the console"
-    required: true
-    default: "true"
   output-file:
     description: "File to output results to"
     required: false
