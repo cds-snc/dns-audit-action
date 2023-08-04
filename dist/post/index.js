@@ -265,8 +265,10 @@ var __webpack_exports__ = {};
 (() => {
 var exports = __webpack_exports__;
 const pcapParser = __nccwpck_require__(642);
-const { sleepSync } = __nccwpck_require__(195);
 const { exec } = __nccwpck_require__(81);
+const fs = __nccwpck_require__(147)
+
+const { sleepSync } = __nccwpck_require__(195);
 
 const filePcap = '/tmp/dns.pcap';
 
@@ -274,22 +276,29 @@ const supressOutput = process.env.SUPRESS_DNS_AUDIT_OUTPUT || false;
 
 const post = () => {
 
-    exec('sudo pkill tcpdump', (err, stdout, stderr) => {
-        if (err) {
-            console.log(err);
-            return;
+    // Only clean up if the file exists
+    if (fs.existsSync(filePcap)) {
+
+        exec('sudo pkill tcpdump', (err, stdout, stderr) => {
+            if (err) {
+                console.log(err);
+                return;
+            }
+            console.log(stdout);
+            console.log(stderr);
+        });
+
+        // Let tcpdump finish
+        sleepSync(5000);
+
+        // Convert PCAP to JSON
+        if (!supressOutput) {
+            const packets = pcapParser.parsePcapFile(filePcap);
+            console.log(packets);
         }
-        console.log(stdout);
-        console.log(stderr);
-    });
 
-    // Let tcpdump finish
-    sleepSync(5000);
-
-    // Convert PCAP to JSON
-    if (!supressOutput) {
-        const packets = pcapParser.parsePcapFile(filePcap);
-        console.log(packets);
+        // Delete file to avoid multiple runs
+        fs.unlinkSync(filePcap);
     }
 
 }

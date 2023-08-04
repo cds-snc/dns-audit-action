@@ -1,7 +1,7 @@
 const core = require("@actions/core");
+const fs = require("fs");
 const { spawn, exec } = require('child_process');
 
-const fs = require("fs");
 const pcap_parser = require("./pcap_parser");
 const { sleepSync } = require('./sleep');
 
