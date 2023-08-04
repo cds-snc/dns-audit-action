@@ -7,6 +7,9 @@ inputs:
     description: "Flag if it should echo the results to the console"
     required: true
     default: "true"
+  output-file:
+    description: "File to output results to"
+    required: false
   start-tcpdump:
     description: "Flag if it should start tcpdump"
     required: true
