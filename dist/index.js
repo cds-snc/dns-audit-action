@@ -3040,7 +3040,7 @@ const { spawn, exec } = __nccwpck_require__(81);
 const fs = __nccwpck_require__(147);
 const pcap_parser = __nccwpck_require__(642);
 
-const filePcap = 'tmp/dns.pcap';
+const filePcap = '/tmp/dns.pcap';
 
 const supressOutput = process.env.SUPRESS_DNS_AUDIT_OUTPUT || false;
 
@@ -3083,6 +3083,9 @@ const main = () => {
 
     // Check if dns.pcap exists
     if (startTcpdump && !fs.existsSync(filePcap)) {
+
+        // Start tcpdump
+        console.log("Starting tcpdump");
 
         const command = 'sudo';
         const args = ['tcpdump', '-n', '-i', 'any', '-w', 'tmp/dns.pcap', 'port', '53'];
