@@ -15,19 +15,8 @@ const pcapHeader = (buffer) => {
     sigfigs: buffer.readUInt32LE(12),
     snaplen: buffer.readUInt32LE(16),
     network: buffer.readUInt32LE(20),
-  }
-}
-
-const sll2Header = (buffer) => {
-  return {
-    protocol: buffer.readUInt16LE(0),
-    interface: buffer.readUInt32LE(4),
-    arphrdType: buffer.readUInt16LE(8),
-    packetType: buffer.readUInt8(10),
-    addressLength: buffer.readUInt8(11),
-    address: buffer.subarray(12, 12 + buffer.readUInt8(11)).toString('hex').match(/.{2}/g).join(':'),
-  }
-}
+  };
+};
 
 const ipv4Header = (buffer) => {
   return {
@@ -43,38 +32,12 @@ const ipv4Header = (buffer) => {
     headerChecksum: buffer.readUInt16LE(10),
     sourceAddress: buffer.subarray(12, 16),
     destinationAddress: buffer.subarray(16, 20),
-    options: buffer.subarray(20, 20 + ((buffer.readUInt8(0) & 0x0f) * 4)),
-  }
-}
-
-const udpHeader = (buffer) => {
-  return {
-    type: "UDP",
-    sourcePort: buffer.readUInt16BE(0),
-    destinationPort: buffer.readUInt16BE(2),
-    length: buffer.readUInt16BE(4),
-    checksum: buffer.readUInt16BE(6),
+    options: buffer.subarray(20, 20 + (buffer.readUInt8(0) & 0x0f) * 4),
   };
 };
 
 function parseDnsQuery(payload) {
-
   try {
-
-    const identification = payload.readUInt16BE(0); // Identification is the first 2 bytes
-    const flags = payload.readUInt16BE(2); // Flags field is at offset 2
-    const isResponse = (flags & 0x8000) !== 0; // Most significant bit indicates response
-    const opcode = (flags >> 11) & 0x0f; // Opcode is the 4 bits following the response bit
-    const authoritativeAnswer = (flags & 0x0400) !== 0;
-    const truncated = (flags & 0x0200) !== 0;
-    const recursionDesired = (flags & 0x0100) !== 0;
-    const recursionAvailable = (flags & 0x0080) !== 0;
-    const responseCode = flags & 0x000f; // 4 bits for the response code
-    const numberOfQueries = payload.readUInt16BE(4); // Number of queries is 2 bytes after the flags
-    const numberOfAnswers = payload.readUInt16BE(6); // Number of answers is 2 bytes after the number of queries
-    const numberOfAuthorityRecords = payload.readUInt16BE(8); // Number of authority records is 2 bytes after the number of answers
-    const numberOfAdditionalRecords = payload.readUInt16BE(10); // Number of additional records is 2 bytes after the number of authority records
-
     let queryName = "";
     let offset = 12; // Start of the query name
 
@@ -84,14 +47,13 @@ function parseDnsQuery(payload) {
         payload.slice(offset + 1, offset + 1 + labelLength).toString("utf8") +
         ".";
       offset += labelLength + 1;
-      // In case we have a broken packet 
+      // In case we have a broken packet
       if (queryName.endsWith("..")) {
         break;
       }
     }
 
     const queryType = payload.readUInt16BE(offset + 1); // Query type is 2 bytes after the query name
-    const queryClass = payload.readUInt16BE(offset + 3); // Query class is 2 bytes after the query types
 
     // Mapping of DNS query types to their names
     const queryTypeNames = {
@@ -165,22 +127,17 @@ function parsePcapFile(filename) {
     const tsSec = pcapData.readUInt32LE(offset);
     const tsUsec = pcapData.readUInt32LE(offset + 4);
     const inclLen = pcapData.readUInt32LE(offset + 8);
-    const origLen = pcapData.readUInt32LE(offset + 12);
     const packetData = pcapData.subarray(offset + 16, offset + 16 + inclLen);
 
     if (pcapHeaderData.network === 276) {
-
-      const sllHeader = sll2Header(packetData);
       const ipv4HeaderData = ipv4Header(packetData.subarray(20));
       if (ipv4HeaderData.protocol === 17) {
-        const udpHeaderData = udpHeader(packetData.subarray(40));
         const dnsData = packetData.subarray(48);
         const dnsQuery = parseDnsQuery(dnsData);
         packets.push({
           timestamp: new Date(tsSec * 1000 + tsUsec / 1000),
-          ...dnsQuery
-        }
-        )
+          ...dnsQuery,
+        });
       }
     }
 
@@ -192,17 +149,21 @@ function parsePcapFile(filename) {
 
 exports.parsePcapFile = parsePcapFile;
 
+
 /***/ }),
 
 /***/ 195:
 /***/ ((__unused_webpack_module, exports) => {
 
 const sleepSync = (ms) => {
-    const end = new Date().getTime() + ms;
-    while (new Date().getTime() < end) { /* do nothing */ }
-}
+  const end = new Date().getTime() + ms;
+  while (new Date().getTime() < end) {
+    /* do nothing */
+  }
+};
 
 exports.sleepSync = sleepSync;
+
 
 /***/ }),
 
@@ -266,47 +227,45 @@ var __webpack_exports__ = {};
 var exports = __webpack_exports__;
 const pcapParser = __nccwpck_require__(642);
 const { exec } = __nccwpck_require__(81);
-const fs = __nccwpck_require__(147)
+const fs = __nccwpck_require__(147);
 
 const { sleepSync } = __nccwpck_require__(195);
 
-const filePcap = '/tmp/dns.pcap';
+const filePcap = "/tmp/dns.pcap";
 
 const supressOutput = process.env.SUPRESS_DNS_AUDIT_OUTPUT || false;
 
 const post = () => {
+  // Only clean up if the file exists
+  if (fs.existsSync(filePcap)) {
+    exec("sudo pkill tcpdump", (err) => {
+      if (err) {
+        return;
+      }
+    });
 
-    // Only clean up if the file exists
-    if (fs.existsSync(filePcap)) {
+    // Let tcpdump finish
+    sleepSync(5000);
 
-        exec('sudo pkill tcpdump', (err) => {
-            if (err) {
-                return;
-            }
-        });
-
-        // Let tcpdump finish
-        sleepSync(5000);
-
-        // Convert PCAP to JSON
-        if (!supressOutput) {
-            const packets = pcapParser.parsePcapFile(filePcap);
-            console.log(packets);
-        }
-
-        // Delete file to avoid multiple runs
-        exec('sudo rm -rf /tmp/dns.pcap', (err) => {
-            if (err) {
-                return;
-            }
-        });
+    // Convert PCAP to JSON
+    if (!supressOutput) {
+      const packets = pcapParser.parsePcapFile(filePcap);
+      console.log(packets);
     }
 
-}
+    // Delete file to avoid multiple runs
+    exec("sudo rm -rf /tmp/dns.pcap", (err) => {
+      if (err) {
+        return;
+      }
+    });
+  }
+};
 
 post();
 
 exports.post = post;
+
 })();
 
 module.exports = __webpack_exports__;

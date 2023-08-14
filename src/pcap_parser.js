@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require("fs");
 
 const pcapHeader = (buffer) => {
   return {
@@ -9,8 +9,8 @@ const pcapHeader = (buffer) => {
     sigfigs: buffer.readUInt32LE(12),
     snaplen: buffer.readUInt32LE(16),
     network: buffer.readUInt32LE(20),
-  }
-}
+  };
+};
 
 const ipv4Header = (buffer) => {
   return {
@@ -26,9 +26,9 @@ const ipv4Header = (buffer) => {
     headerChecksum: buffer.readUInt16LE(10),
     sourceAddress: buffer.subarray(12, 16),
     destinationAddress: buffer.subarray(16, 20),
-    options: buffer.subarray(20, 20 + ((buffer.readUInt8(0) & 0x0f) * 4)),
-  }
-}
+    options: buffer.subarray(20, 20 + (buffer.readUInt8(0) & 0x0f) * 4),
+  };
+};
 
 function parseDnsQuery(payload) {
   try {
@@ -41,7 +41,7 @@ function parseDnsQuery(payload) {
         payload.slice(offset + 1, offset + 1 + labelLength).toString("utf8") +
         ".";
       offset += labelLength + 1;
-      // In case we have a broken packet 
+      // In case we have a broken packet
       if (queryName.endsWith("..")) {
         break;
       }
@@ -130,9 +130,8 @@ function parsePcapFile(filename) {
         const dnsQuery = parseDnsQuery(dnsData);
         packets.push({
           timestamp: new Date(tsSec * 1000 + tsUsec / 1000),
-          ...dnsQuery
-        }
-        )
+          ...dnsQuery,
+        });
       }
     }
 

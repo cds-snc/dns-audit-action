@@ -3,6 +3,10 @@ description: "GitHub action to audit all DNS requests made by a workflow file"
 author: "Canadian Digital Service"
 
 inputs:
+  file-path:
+    description: "Path to PCAP file"
+    required: true
+    default: "/tmp/dns.pcap"
   output-file:
     description: "File to output results to"
     required: false
