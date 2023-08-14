@@ -10,11 +10,11 @@ const filePcap = '/tmp/dns.pcap';
 const terminateTcpdump = (filename) => {
     exec('sudo pkill tcpdump', (err, stdout, stderr) => {
         if (err) {
-            console.log(err);
+            core.debug(err);
             return;
         }
-        console.log(stdout);
-        console.log(stderr);
+        core.debug(stdout);
+        core.debug(stderr);
     });
 
     // Let tcpdump finish
@@ -50,7 +50,7 @@ const main = () => {
     if (startTcpdump && !fs.existsSync(filePcap)) {
 
         // Start tcpdump
-        console.log("Starting tcpdump");
+        core.debug("Starting tcpdump");
 
         const command = 'sudo';
         const args = ['tcpdump', '-n', '-i', 'any', '-w', filePcap, 'port', '53'];
@@ -69,7 +69,7 @@ const main = () => {
     } else if (fs.existsSync(filePcap) && outputFile) {
         terminateTcpdump(outputFile);
     } else {
-        console.log("No DNS packets capture started.");
+        core.warning("No DNS packets capture started. Doing nothing.");
     }
 }
 
