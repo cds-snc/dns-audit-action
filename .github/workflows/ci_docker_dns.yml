@@ -13,8 +13,6 @@ jobs:
 
       - name: Capture DNS traffic
         uses: ./
-        with:
-          start-tcpdump: true
 
       - name: Run docker container
         uses: cds-snc/terraform-tools-setup@v1
