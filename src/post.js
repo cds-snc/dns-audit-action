@@ -1,14 +1,15 @@
+const core = require("@actions/core");
 const pcapParser = require("./pcap_parser");
 const { exec } = require("child_process");
 const fs = require("fs");
 
 const { sleepSync } = require("./sleep");
 
-const filePcap = "/tmp/dns.pcap";
-
 const supressOutput = process.env.SUPRESS_DNS_AUDIT_OUTPUT || false;
 
 const post = () => {
+  const filePcap = core.getInput("file-path");
+
   // Only clean up if the file exists
   if (fs.existsSync(filePcap)) {
     exec("sudo pkill tcpdump", (err) => {
@@ -27,7 +28,7 @@ const post = () => {
     }
 
     // Delete file to avoid multiple runs
-    exec("sudo rm -rf /tmp/dns.pcap", (err) => {
+    exec(`sudo rm -rf ${filePcap}`, (err) => {
       if (err) {
         return;
       }

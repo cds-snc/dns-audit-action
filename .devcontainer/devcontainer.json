@@ -3,7 +3,7 @@
 	"extensions": [
 		"redhat.vscode-yaml",
 		"timonwong.shellcheck",
-		"github.copilot"
+		"github.copilot-chat"
 	],
 	"features": {
 		"ghcr.io/lukewiwa/features/shellcheck:0": {
