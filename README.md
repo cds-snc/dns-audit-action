@@ -1,6 +1,6 @@
 # DNS Audit Action
 
-The purpose of this action is to audit DNS traffic from a GitHub Action workflow. The action achieves this by launching TCPDump and capturing DNS traffic. Traffic is captured in SLL2 packet format and then parsed for UDP packets. Once the packers have been captured the action can be called again with the `output-file` parameter to output the data to a file on JSON format with additional metadata around the GitHub action. From there ur can be processed by sending it to a log analytics workspace or other SIEM, or uploaded as an artifact.
+The purpose of this action is to audit DNS traffic from a GitHub Action workflow. The action achieves this by launching TCPDump and capturing DNS traffic. Traffic is captured in SLL2 packet format and then parsed for UDP packets. Once the packers have been captured the action can be called again with the `output-file` parameter to output the data to a file on JSON format with additional metadata around the GitHub Action. From there it can be processed by sending it to a log analytics workspace or other SIEM, or uploaded as an artifact.
 
 If the action is not called twice, the data will be output to the console as part of the post action step. Should you want to avoid that you can set the `SUPRESS_DNS_AUDIT_OUTPUT` environment variable to `true` in your workflow.
 
