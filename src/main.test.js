@@ -1,8 +1,7 @@
 const core = require("@actions/core");
 const fs = require("fs");
-const { spawn, exec } = require("child_process");
+const { spawn } = require("child_process");
 const { main } = require("./main");
-const pcapParser = require("./pcap_parser");
 const sleepModule = require("./sleep");
 
 // Mocking core module

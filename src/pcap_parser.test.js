@@ -1,4 +1,3 @@
-const fs = require("fs");
 const { parsePcapFile } = require("./pcap_parser");
 
 describe("parsePcapFile function", () => {
